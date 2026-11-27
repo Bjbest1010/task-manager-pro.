@@ -53,10 +53,10 @@ const seed = (): AppState => ({
     { id: "a3", text: "PRINCE2 Foundation was rejected — action needed", at: "2026-10-25T11:05:00Z" },
     { id: "a4", text: "BSc Computer Science approved", at: "2026-09-12T08:40:00Z" },
   ],
-  profile: { name: "Amina Wanjiru", email: "amina.wanjiru@example.com", phone: "+254 712 345 678", location: "Nairobi, Kenya", headline: "Software Engineer & Data Scientist", education: "MSc Data Science — University of Edinburgh (2023)\nBSc Computer Science — University of Nairobi (2021)", experience: "Lead Front-end Developer — Safari Tech (2022–present)\nSoftware Engineer — Kijiji Labs (2021–2022)" },
+  profile: { name: "Bishara Bare Sahal", email: "bishara.sahal@example.com", phone: "+254 712 345 678", location: "Nairobi, Kenya", headline: "Software Engineer & Data Scientist", education: "MSc Data Science — University of Edinburgh (2023)\nBSc Computer Science — University of Nairobi (2021)", experience: "Lead Front-end Developer — Safari Tech (2022–present)\nSoftware Engineer — Kijiji Labs (2021–2022)" },
 });
 
-const KEY = "tmp-state-v1";
+const KEY = "tmp-state-v2";
 let state: AppState | null = null;
 const listeners = new Set<() => void>();
 let loaded = false;
