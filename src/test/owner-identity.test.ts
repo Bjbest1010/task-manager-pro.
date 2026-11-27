@@ -28,7 +28,7 @@ describe("Owner identity", () => {
 
     expect(saved.profile.name).toBe("Bishara Bare Sahal");
     expect(saved.profile.email).toBe("bbishara99@gmail.com");
-    expect(saved.profile.phone).toBe("0114726411");
+    expect(saved.profile.phone).toBe("+254114726411");
   });
 
   it("replaces the earlier placeholder identity in data already saved in the browser", () => {
@@ -41,7 +41,13 @@ describe("Owner identity", () => {
 
     expect(fixed.name).toBe("Bishara Bare Sahal");
     expect(fixed.email).toBe("bbishara99@gmail.com");
-    expect(fixed.phone).toBe("0114726411");
+    expect(fixed.phone).toBe("+254114726411");
+  });
+
+  it("replaces the older local-format phone saved in the browser", () => {
+    const fixed = migrateProfile({ ...base, phone: "0114726411" });
+
+    expect(fixed.phone).toBe("+254114726411");
   });
 
   it("keeps contact details the owner typed themselves", () => {

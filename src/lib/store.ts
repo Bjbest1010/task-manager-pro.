@@ -32,10 +32,10 @@ export const SKILL_LEVELS = ["Beginner", "Intermediate", "Advanced", "Expert"];
 export const STORAGE_KEY = "tmp-state-v2";
 export const OWNER_NAME = "Bishara Bare Sahal";
 export const OWNER_EMAIL = "bbishara99@gmail.com";
-export const OWNER_PHONE = "0114726411";
+export const OWNER_PHONE = "+254114726411";
 // Details that appeared in earlier demo data; never shown to the user.
 const PLACEHOLDER_EMAILS = new Set(["bishara.sahal@example.com", "amina@example.com", "amina.sahal@example.com"]);
-const PLACEHOLDER_PHONES = new Set(["+254 712 345 678"]);
+const PLACEHOLDER_PHONES = new Set(["+254 712 345 678", "0114726411"]);
 
 export function migrateProfile(p: Profile): Profile {
   const name = /^\s*amina\b/i.test(p.name ?? "") ? OWNER_NAME : p.name;
