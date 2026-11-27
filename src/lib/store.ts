@@ -28,6 +28,22 @@ export const CREDENTIAL_TYPES = ["Bachelor's Degree", "Master's Degree", "Doctor
 export const SKILL_CATEGORIES = ["Technical", "Management", "Communication", "Data & Analytics", "Design", "Languages"];
 export const SKILL_LEVELS = ["Beginner", "Intermediate", "Advanced", "Expert"];
 
+// The project owner's identity is fixed: every screen and the seeded demo data use these.
+export const STORAGE_KEY = "tmp-state-v2";
+export const OWNER_NAME = "Bishara Bare Sahal";
+export const OWNER_EMAIL = "bbishara99@gmail.com";
+export const OWNER_PHONE = "0114726411";
+// Details that appeared in earlier demo data; never shown to the user.
+const PLACEHOLDER_EMAILS = new Set(["bishara.sahal@example.com", "amina@example.com", "amina.sahal@example.com"]);
+const PLACEHOLDER_PHONES = new Set(["+254 712 345 678"]);
+
+export function migrateProfile(p: Profile): Profile {
+  const name = /^\s*amina\b/i.test(p.name ?? "") ? OWNER_NAME : p.name;
+  const email = PLACEHOLDER_EMAILS.has((p.email ?? "").trim().toLowerCase()) ? OWNER_EMAIL : p.email;
+  const phone = PLACEHOLDER_PHONES.has((p.phone ?? "").trim()) ? OWNER_PHONE : p.phone;
+  return { ...p, name, email, phone };
+}
+
 const seed = (): AppState => ({
   credentials: [
     { id: "c1", title: "BSc Computer Science", institution: "University of Nairobi", type: "Bachelor's Degree", awardDate: "2021-11-20", details: "First Class Honours. Thesis on distributed systems.", documents: [{ name: "bsc_certificate.pdf", size: 482113, type: "application/pdf" }, { name: "transcript.pdf", size: 912004, type: "application/pdf" }], status: "Approved", feedback: "Documents matched institution records (demo).", submittedAt: "2026-09-02" },
@@ -53,10 +69,10 @@ const seed = (): AppState => ({
     { id: "a3", text: "PRINCE2 Foundation was rejected — action needed", at: "2026-10-25T11:05:00Z" },
     { id: "a4", text: "BSc Computer Science approved", at: "2026-09-12T08:40:00Z" },
   ],
-  profile: { name: "Bishara Bare Sahal", email: "bishara.sahal@example.com", phone: "+254 712 345 678", location: "Nairobi, Kenya", headline: "Software Engineer & Data Scientist", education: "MSc Data Science — University of Edinburgh (2023)\nBSc Computer Science — University of Nairobi (2021)", experience: "Lead Front-end Developer — Safari Tech (2022–present)\nSoftware Engineer — Kijiji Labs (2021–2022)" },
+  profile: { name: OWNER_NAME, email: OWNER_EMAIL, phone: OWNER_PHONE, location: "Nairobi, Kenya", headline: "Software Engineer & Data Scientist", education: "MSc Data Science — University of Edinburgh (2023)\nBSc Computer Science — University of Nairobi (2021)", experience: "Lead Front-end Developer — Safari Tech (2022–present)\nSoftware Engineer — Kijiji Labs (2021–2022)" },
 });
 
-const KEY = "tmp-state-v2";
+const KEY = STORAGE_KEY;
 let state: AppState | null = null;
 const listeners = new Set<() => void>();
 let loaded = false;
@@ -64,7 +80,7 @@ let loaded = false;
 function get(): AppState { if (!state) state = seed(); return state; }
 function load() {
   if (loaded) return; loaded = true;
-  try { const raw = localStorage.getItem(KEY); if (raw) { state = JSON.parse(raw); listeners.forEach((l) => l()); } } catch { /* ignore */ }
+  try { const raw = localStorage.getItem(KEY); if (raw) { const parsed = JSON.parse(raw) as AppState; state = parsed.profile ? { ...parsed, profile: migrateProfile(parsed.profile) } : parsed; listeners.forEach((l) => l()); } } catch { /* ignore */ }
 }
 export function setState(fn: (s: AppState) => AppState) {
   state = fn(get());

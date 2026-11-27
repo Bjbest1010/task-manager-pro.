@@ -36,7 +36,7 @@ function Dashboard() {
     <div className="space-y-6">
       <section className="hero">
         <p className="text-sm opacity-80">Welcome back,</p>
-        <h1 className="font-display text-2xl font-bold md:text-3xl">{profile.name.split(" ")[0]}, here's your verification overview</h1>
+        <h1 className="font-display text-2xl font-bold md:text-3xl">{profile.name}, here's your verification overview</h1>
         <div className="mt-5 max-w-md">
           <div className="mb-1 flex justify-between text-sm"><span>Overall validation progress</span><span className="font-semibold">{progress}%</span></div>
           <div className="h-2 overflow-hidden rounded-full bg-primary-foreground/25"><div className="h-full rounded-full bg-primary-foreground" style={{ width: `${progress}%` }} /></div>
